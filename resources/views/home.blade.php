@@ -19,12 +19,23 @@
                                 <div class="p-3 m-3">
                                     <br><a target="_blank" href="{{ $path }}{{ $file }}">{{ $file }}</a><br>
                                     <embed src="{{ $path }}{{ $file }}" height="300px" />
+                                    <form action="/rename" method="POST">
+                                        <input type="hidden" name="filename" value="{{ $file }}">
+                                        <input type="text" name="newfilename">
+                                        <input type="submit" value="rename">
+                                        {{ csrf_field() }}
+                                    </form>
+                                    <form action="/delete" method="POST">
+                                        <input type="hidden" name="filename" value="{{ $file }}">
+                                        <input type="submit" value="delete">
+                                        {{ csrf_field() }}
+                                    </form>
                                 </div>
                             @endforeach
                         @endif
                     </div>
                     @if ($is_autorized)
-                        <form action="/process" enctype="multipart/form-data" method="POST">
+                        <form action="/upload" enctype="multipart/form-data" method="POST">
                             <p>
                                 <label for="photo">
                                     <input type="file" name="photo" id="photo">
