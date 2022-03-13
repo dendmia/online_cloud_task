@@ -27,15 +27,26 @@ class HomeController extends Controller
     public function index()
     {
 		$is_autorized = false;
+		$file_names = [];
+		$path = '';
 		if (Auth::check()) {
 			$user_id = Auth::user()->id;
 			$is_autorized = true;
-			$files = Storage::files('/photos/users/' . $user_id);
+			$files = Storage::files('/public/users/' . $user_id);
+			$file_names = [];
+			if (!empty($files)) {
+				foreach ($files as $file) {
+					$file_names[] = array_last(explode('/', $file));
+				}
+			}
+			$path = "/storage/users/{$user_id}/";
 		}
 
+//		dd($files);
         return view('home')->with([
 			'is_autorized' => $is_autorized,
-			'files' => $files
+			'file_names' => $file_names,
+			'path' => $path
 		]);
     }
 }

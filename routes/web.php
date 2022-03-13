@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/', function () {
-    return view('home');
+	return view('welcome');
 });
 Auth::routes();
 
@@ -23,7 +23,7 @@ Route::post('process', function (Request $request) {
 		$user_id = Auth::user()->id;
 		$file = $request->file('photo');
 		$filename = 'users/' . $user_id . '/' . $file->getClientOriginalName();
-		$path = $file->storeAs('files', $filename);
-		return view('home');
+		$path = $file->storeAs('public', $filename);
+		return redirect('home');
 	}
 });
