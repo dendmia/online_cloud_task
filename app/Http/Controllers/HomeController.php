@@ -42,7 +42,6 @@ class HomeController extends Controller
 			$path = "/storage/users/{$user_id}/";
 		}
 
-//		dd($files);
         return view('home')->with([
 			'is_autorized' => $is_autorized,
 			'file_names' => $file_names,
