@@ -20,3 +20,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/upload', 'FilesController@upload');
 Route::post('/delete', 'FilesController@delete');
 Route::post('/rename', 'FilesController@rename');
+Route::get('/myprofile', 'MyProfileController@show');
+Route::post('/myprofile/edit', 'MyProfileController@edit');
