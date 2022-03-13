@@ -16,8 +16,8 @@ class MyProfileController extends \Illuminate\Routing\Controller
 		$validation = Validator::make($input, [
 			'first_name' => 'string|max:255',
 			'last_name' => 'string|max:255',
-			'email' => 'required|string|email|max:255|unique:users',
-			'phone_number' => 'regex:/[^0-9]/'
+			'email' => 'required|string|email|max:255',
+			'phone_number' => 'string|max:21'
 		]);
 
 		if ($validation->fails())
