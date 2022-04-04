@@ -12,14 +12,16 @@ use Illuminate\Support\Facades\Validator;
 
 class FilesController extends Controller
 {
+	//TODO: В контроллере валидации быть не должно
+	//artisan make request
 	private function validate()
 	{
 		$input = Input::all();
+		//Плохая практика использовать regex, см раздел validation
 		$validation = Validator::make($input, [
 			'newfilename' => 'regex: /^[a-zA-Z0-9]+$/'
 		]);
-		if ($validation->fails())
-		{
+		if ($validation->fails()) {
 			dd('Валидация не прошла');
 		}
 	}
@@ -31,7 +33,7 @@ class FilesController extends Controller
 			$file = $request->file('photo');
 			$filename = 'users/' . $user_id . '/' . $file->getClientOriginalName();
 			$path = $file->storeAs('public', $filename);
-			return redirect('home');
+			redirect('home');
 		}
 	}
 
@@ -43,9 +45,8 @@ class FilesController extends Controller
 			$filename_to_rename = $request->input('filename');
 			$new_filename = $request->input('newfilename');
 
-			if (!empty($new_filename))
-			{
-				Storage::move('public/users/'. $user_id .'/' . $filename_to_rename, 'public/users/'. $user_id .'/' . $new_filename);
+			if (!empty($new_filename)) {
+				Storage::move('public/users/' . $user_id . '/' . $filename_to_rename, 'public/users/' . $user_id . '/' . $new_filename);
 			}
 		}
 		return redirect('home');
@@ -53,10 +54,11 @@ class FilesController extends Controller
 
 	public function delete(Request $request)
 	{
+		// TODO: Везде убрать проверку авторизации
 		if (Auth::check()) {
 			$user_id = Auth::user()->id;
 			$filename_to_delete = $request->input('filename');
-			Storage::delete('public/users/'. $user_id .'/' . $filename_to_delete);
+			Storage::delete('public/users/' . $user_id . '/' . $filename_to_delete);
 		}
 		return redirect('home');
 	}

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -22,17 +24,19 @@ class HomeController extends Controller
     /**
      * Show the application dashboard.
      *
-     * @return \Illuminate\Http\Response
+     * @return Factory|\Illuminate\Foundation\Application|\Illuminate\Http\Response|\Illuminate\View\View
      */
     public function index()
     {
+		//Заменить на CamelCase
 		$is_autorized = false;
 		$file_names = [];
 		$path = '';
+		//TODO: middleware, проверка на авторизацию лишняя
 		if (Auth::check()) {
 			$user_id = Auth::user()->id;
 			$is_autorized = true;
-			$files = Storage::files('/public/users/' . $user_id);
+			$files = Storage::files('/public/users/' . $user_id) ?? [];
 			$file_names = [];
 			if (!empty($files)) {
 				foreach ($files as $file) {
@@ -41,7 +45,7 @@ class HomeController extends Controller
 			}
 			$path = "/storage/users/{$user_id}/";
 		}
-
+//compact('is_autorized', 'file_names')
         return view('home')->with([
 			'is_autorized' => $is_autorized,
 			'file_names' => $file_names,

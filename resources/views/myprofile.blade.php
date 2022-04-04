@@ -9,7 +9,9 @@
                     <div class="panel-body">
                         <a href="/home"> <- Home </a>
                         <form action="/myprofile/edit" method="post">
+                            {{route('')}}
                             <label for="first_name">first name</label><br>
+                            //Поддержка мультиязычности lang
                             <input class="input" type="text" name="first_name" value={{$first_name}}><br>
                             <label for="last_name">last name</label><br>
                             <input class="input" type="text" name="last_name" value={{$last_name}}><br>
@@ -19,6 +21,7 @@
                             <input class="input" type="text" name="phone_number" value={{$phone_number}}><br>
                             <input class="submit" type="submit" value="Edit">
                             {{ csrf_field() }}
+                            @csrf
                         </form>
                     </div>
                 </div>

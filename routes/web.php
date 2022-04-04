@@ -1,5 +1,7 @@
 <?php
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,9 +18,14 @@ Route::get('/', function () {
 });
 Auth::routes();
 
+
 Route::get('/home', 'HomeController@index')->name('home');
+
+//TODO: объединяем вызовы одного контроллера через group
 Route::post('/upload', 'FilesController@upload');
 Route::post('/delete', 'FilesController@delete');
 Route::post('/rename', 'FilesController@rename');
+
+//TODO prefix
 Route::get('/myprofile', 'MyProfileController@show');
 Route::post('/myprofile/edit', 'MyProfileController@edit');

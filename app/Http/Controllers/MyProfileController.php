@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 
-class MyProfileController extends \Illuminate\Routing\Controller
+class MyProfileController extends Controller
 {
+	//TODO: Валидацию убрать отсюда
 	private function validate()
 	{
 		$input = Input::all();
@@ -20,8 +22,7 @@ class MyProfileController extends \Illuminate\Routing\Controller
 			'phone_number' => 'string|max:21'
 		]);
 
-		if ($validation->fails())
-		{
+		if ($validation->fails()) {
 			dd($validation->errors()->toArray());
 		}
 	}
@@ -30,6 +31,7 @@ class MyProfileController extends \Illuminate\Routing\Controller
 	{
 		if (Auth::check()) {
 			$user_id = Auth::user()->id;
+			//TOOO: Создать модель
 			$user = DB::table('users')->whereId($user_id)->first();
 			$first_name = $user->firstname;
 			$last_name = $user->lastname;
@@ -42,11 +44,12 @@ class MyProfileController extends \Illuminate\Routing\Controller
 			'last_name' => $last_name,
 			'email' => $email,
 			'phone_number' => $phone_number
-			]);
+		]);
 	}
 
 	public function edit(Request $request)
 	{
+
 		$this->validate();
 		if (Auth::check()) {
 			$user_id = Auth::user()->id;
@@ -55,6 +58,7 @@ class MyProfileController extends \Illuminate\Routing\Controller
 			$email = $request->input('email');
 			$phone_number = $request->input('phone_number');
 
+			// TODO: Перенести модель
 			DB::table('users')
 				->where('id', '=', $user_id)
 				->update([
